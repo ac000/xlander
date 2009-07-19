@@ -1,8 +1,6 @@
 #CC = gcc -Wall
 CC = cc
 CFLAGS = -O
-INCLUDES = -I/usr/local/include
-LDFLAGS = -s -L/usr/local/lib
 LIBS = -lm -lX11
 TARGET = xlander
 SRCS = xlander.c globals.c initialize.c functions.c instrument.c game.c \

@@ -108,7 +108,7 @@ typedef struct {
 DATABASE *DBInit (), *DBInitFromData (), *LoadDataBase ();
 void DBInsert (), DBFinish (), DBPlot (), SwapBuffers (), exit ();
 #ifndef _AIX
-char *malloc ();
+/*char *malloc ();*/
 #endif
 double atof ();
 #ifdef sun
@@ -122,4 +122,4 @@ int printf (), fprintf (), time ();
 #define WorldToRadarX(x) (290 + (((int) (x) + (WORLD_WIDTH >> 1)) / 250))
 #define WorldToRadarY(y) (90 - (((int) (y) + (WORLD_LENGTH >> 1)) / 250))
 
-#endif _xlander_h_
+#endif

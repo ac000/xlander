@@ -31,4 +31,4 @@ extern int px, py, pz;
 extern int roll, pitch, yaw;
 extern float acceleration;
 
-#endif _globals_h_
+#endif
