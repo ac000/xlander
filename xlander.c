@@ -145,5 +145,6 @@ void main (argc, argv)
       DisplayWorld ();
       (void) sigsetmask (mask);
       mask = sigblock (sigmask (SIGINT));
+      usleep(100000);
    }
 }
