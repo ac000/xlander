@@ -33,11 +33,10 @@ int Pause (string)
 {
    XEvent event;
    int x, y;
-   extern int mask;
-   int sigblock (), sigsetmask ();
+   extern sigset_t mask;
    void DisplayWorld ();
 
-   (void) sigsetmask (mask);
+   sigprocmask (SIG_SETMASK, &mask, NULL);
    x = (viewWidth >> 1) - (XTextWidth (font, string, strlen (string)) >> 1);
    y = (viewHeight >> 2) - ((font->ascent + font->descent) >> 1);
    DisplayWorld ();
@@ -46,7 +45,7 @@ int Pause (string)
       XNextEvent (d, &event);
       switch (event.type) {
       case ButtonPress:
-	 mask = sigblock (sigmask (SIGINT));
+	 sigprocmask (SIG_BLOCK, &mask, NULL);
 	 return event.xbutton.button;
       case Expose:
 	 if (event.xexpose.count == 0) {

@@ -67,7 +67,7 @@ static LINE shadow_data[] = {
 
 static DATABASE *world, *craft, *thrust, *shadow;
 static LANDER lander;
-int mask;
+sigset_t mask;
 
 /******************************************************************************
 ** DisplayWorld
@@ -106,7 +106,7 @@ void main (argc, argv)
    void InitializeLander (), SetupSinCosTable (), Xinitialize ();
    void LoadResources (), DrawInstruments ();
    void UpdateOrientation (), DisplayAcceleration ();
-   int sigblock (), sigsetmask (), Pause ();
+   int Pause ();
 
    world = LoadDataBase ();
    craft = DBInitFromData (lander_data, LANDERSIZE);
@@ -137,14 +137,15 @@ void main (argc, argv)
     * from getting screwed up when the handler is called at the
     * wrong time.
     */
-   mask = sigblock (sigmask (SIGINT));
+   sigemptyset(&mask);
+   sigaddset(&mask, SIGINT);
+   sigprocmask(SIG_BLOCK, &mask, NULL);
    Pause ("Press any mouse button to begin");
    DisplayAcceleration ();
    for (;;) {
       UpdateOrientation (world, craft, &lander);
       DisplayWorld ();
-      (void) sigsetmask (mask);
-      mask = sigblock (sigmask (SIGINT));
+      sigprocmask(SIG_UNBLOCK, &mask, NULL);
       usleep(100000);
    }
 }
