@@ -293,7 +293,7 @@ DATABASE *LoadDataBase ()
 
    world->min_x = world->min_y = -HALF_WORLD_LENGTH;
    world->max_x = world->max_y = HALF_WORLD_WIDTH;
-   srandom ((long) time ((int *) 0));
+   srandom ((long) time (0));
    for (x = -HALF_WORLD_WIDTH; x < HALF_WORLD_WIDTH;
 	r ^= 1, x += EDGE_LENGTH + (int) x_offset)
       for (y = r * (int) y_offset - HALF_WORLD_LENGTH; y < HALF_WORLD_LENGTH;
