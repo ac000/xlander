@@ -56,3 +56,12 @@ noticing this one.
 Enjoy,
 Paul Riddle (paulr@umbc3.umbc.edu)
 Mike Friedman (mikef@umbc3.umbc.edu)
+
+
+Debian Install:
+
+sudo apt-get install libx11-dev libxext-dev xutils-dev
+git clone https://github.com/ac000/xlander.git
+cd xlander
+xmkmf
+make
