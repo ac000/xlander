@@ -164,7 +164,7 @@ void UpdateOrientation (world, craft, lander)
       switch (event.type) {
       case KeyPress:
 	 if (lander->fuel > 0.0) {
-	    XLookupString (&event, &ch, 1, &keysym, (XComposeStatus *) 0);
+	    XLookupString (&event.xkey, &ch, 1, &keysym, (XComposeStatus *) 0);
 	    if (ch == lander->controls[0] || keysym == XK_Up)
 	       lander->rear_thruster = lander->lateral_thrust;
 	    else if (ch == lander->controls[1] || keysym == XK_Down)
@@ -178,7 +178,7 @@ void UpdateOrientation (world, craft, lander)
 	 }
 	 break;
       case KeyRelease:
-	 XLookupString (&event, &ch, 1, &keysym, (XComposeStatus *) 0);
+	 XLookupString (&event.xkey, &ch, 1, &keysym, (XComposeStatus *) 0);
 	 if (ch == lander->controls[0] || keysym == XK_Up)
 	    lander->rear_thruster = 0;
 	 else if (ch == lander->controls[1] || keysym == XK_Down)
