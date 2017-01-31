@@ -20,6 +20,8 @@
 #ifndef _xlander_h_
 #define _xlander_h_
 
+#define _DEFAULT_SOURCE
+
 #include <stdio.h>
 #include <math.h>
 #include <signal.h>
