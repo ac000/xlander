@@ -19,6 +19,8 @@
 #include "xlander.h"
 #include "globals.h"
 
+#include <stdlib.h>
+
 #define   CRASHCODE   2
 
 float  SIN[TWOPI100],COS[TWOPI100];
@@ -317,7 +319,7 @@ DATABASE *DBInit ()
 {
    DATABASE *db;
 
-   if (!(db = (DATABASE *) malloc (sizeof (DATABASE)))) {
+   if (!(db = malloc (sizeof (DATABASE)))) {
       (void) fprintf (stderr, "Error:  Insufficient memory\n");
       exit (1);
    }
@@ -359,8 +361,6 @@ DATABASE *DBInitFromData (lines, nlines)
 void DBFinish (database)
    DATABASE *database;
 {
-   void *calloc ();
-
    if (!(database->segments =
 	 (XSegment *) calloc (database->linecount, sizeof (XSegment)))) {
       (void) fprintf (stderr, "Error:  Insufficient memory\n");
