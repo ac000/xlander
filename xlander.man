@@ -48,7 +48,8 @@ directional thrusters, respectively.  The control keys can be re-mapped
 using the
 .B -control
 option described below.  You can also use the keyboard arrow keys to
-fire directional thrusters if you like.
+fire directional thrusters if you like. You can use the 'Esc' key to
+quit the program at any time.
 
 Each thruster uses up a particular amount of fuel.  The retro thruster
 consumes more fuel than the directional thrusters, since it produces

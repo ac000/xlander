@@ -140,7 +140,7 @@ void main (argc, argv)
    sigemptyset(&mask);
    sigaddset(&mask, SIGINT);
    sigprocmask(SIG_BLOCK, &mask, NULL);
-   Pause ("Press any mouse button to begin");
+   Pause ("Press any mouse button to begin. Esc to quit");
    DisplayAcceleration ();
    for (;;) {
       UpdateOrientation (world, craft, &lander);

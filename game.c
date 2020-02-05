@@ -53,6 +53,16 @@ int Pause (string)
 	    XDrawString (d, viewWin, gcXor, x, y, string, strlen (string));
 	 }
 	 break;
+      case KeyRelease: {
+	 KeySym keysym;
+	 char ch;
+	 void CleanupAndExit ();
+
+	 XLookupString (&event.xkey, &ch, 1, &keysym, (XComposeStatus *) 0);
+	 if (keysym == XK_Escape)
+	    CleanupAndExit ();
+	 break;
+      }
       default:
 	 break;
       }
@@ -106,7 +116,7 @@ void RateLanding (db, lander)
       sprintf (buf, "Nice Landing!    Score: %d", score);
    }
    XDrawImageString (d, instrBuffer, gcInstr, 381, 84, buf, strlen (buf));
-   Pause ("Press mouse button to continue");
+   Pause ("Press mouse button to continue. Esc to quit");
    InitializeLander (db, lander);
 
    /*
@@ -156,6 +166,7 @@ void UpdateOrientation (world, craft, lander)
    KeySym keysym;
    char ch;
    void UpdateInstruments ();
+   void CleanupAndExit ();
 
    if (XCheckMaskEvent (d,
 			ButtonPressMask |
@@ -189,6 +200,8 @@ void UpdateOrientation (world, craft, lander)
 	    lander->right_thruster = 0;
 	 else if (ch == lander->controls[4])
 	    lander->retro_thruster = 0;
+	 else if (keysym == XK_Escape)
+	    CleanupAndExit ();
 	 break;
       default:
          break;
