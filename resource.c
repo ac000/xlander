@@ -22,6 +22,7 @@ static XrmOptionDescRec options[] = {
    { "-repeat",   ".repeat",   XrmoptionNoArg,  (caddr_t) "on" },
    { "-retro",    ".retro",    XrmoptionSepArg, (caddr_t) NULL },
    { "-lateral",  ".lateral",  XrmoptionSepArg, (caddr_t) NULL },
+   { "-noaudio",  ".noaudio",  XrmoptionNoArg,  (caddr_t) "true" },
 };
 #define numOptions (sizeof options / sizeof (XrmOptionDescRec))
 
@@ -60,6 +61,7 @@ void Usage ()
       "  -lateral <thrust>",
       "  -repeat",
       "  -retro <thrust>",
+      " -noaudio",
       (char *) 0,
    };
    char **ptr;
@@ -127,4 +129,9 @@ void LoadResources (argc, argv, lander)
    if (XrmGetResource (resources, "xlander.repeat", "Xlander.Repeat",
 		       &type, &value) != True)
       XAutoRepeatOff (d);
+   if (XrmGetResource (resources, "xlander.noaudio", "Xlander.NoAudio",
+		       &type, &value) == True) {
+      if (strcmp(value.addr, "true") == 0)
+         USE_AUDIO = false;
+   }
 }

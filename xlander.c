@@ -14,6 +14,7 @@
 
 #include "xlander.h"
 #include "globals.h"
+#include "audio.h"
 
 /*
  * A lander
@@ -126,6 +127,8 @@ void main (argc, argv)
    LoadResources (&argc, argv, &lander);
    DrawInstruments ();
    
+   snd_init();
+
    for (;;) {
       XNextEvent (d, &event);
       if (event.type == Expose)

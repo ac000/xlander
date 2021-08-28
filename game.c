@@ -19,6 +19,7 @@
 
 #include "xlander.h"
 #include "globals.h"
+#include "audio.h"
 
 static int score = 0;
 
@@ -186,6 +187,12 @@ void UpdateOrientation (world, craft, lander)
 	       lander->right_thruster = lander->lateral_thrust;
 	    else if (ch == lander->controls[4])
 	       lander->retro_thruster = lander->retro_thrust;
+
+	    if (keysym == XK_Escape)
+		break;
+
+	    if (ch == lander->controls[4])
+		snd_start();
 	 }
 	 break;
       case KeyRelease:
@@ -202,6 +209,8 @@ void UpdateOrientation (world, craft, lander)
 	    lander->retro_thruster = 0;
 	 else if (keysym == XK_Escape)
 	    CleanupAndExit ();
+
+	 snd_stop();
 	 break;
       default:
          break;
@@ -271,6 +280,8 @@ void UpdateOrientation (world, craft, lander)
       lander->heading -= TWOPI;
 
    if (lander->alt < 0.0) {
+      snd_stop();
+
       if (-lander->vert_speed > VERT_SPEED ||
 	  lander->lat_veloc > LAT_SPEED) {
 	 (void) printf ("CRASH!  Vertical speed = %f ft/sec\n",

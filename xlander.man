@@ -26,6 +26,9 @@ value
 .I -retro
 value
 ]
+[
+.I -noaudio
+]
 
 .SH DESCRIPTION
 .LP
@@ -124,6 +127,9 @@ mode is restored.  This option disables this behavior.
 .B -retro value
 Specify the amount of thrust, in ft/sec^2, provided by the retroactive
 thruster.
+.TP
+.B -noaudio
+Disable audio.
 
 .SH BUGS
 .LP
