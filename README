@@ -1,3 +1,21 @@
+Build
+=====
+
+Fedora:
+$ sudo dnf install libX11-devel libXext-devel alsa-lib-devel imake
+
+Debian:
+$ sudo apt-get install libx11-dev libxext-dev libasound-dev xutils-dev
+
+$ git clone https://github.com/ac000/xlander.git
+$ cd xlander
+$ xmkmf
+$ make
+
+
+Original README
+===============
+
 xlander is a lunar landing simulation for X.  The object is to
 successfully land the craft on the surface of the moon or some other
 planet.  The program features "out-the-window" 3-d wire-frame graphics
@@ -56,12 +74,3 @@ noticing this one.
 Enjoy,
 Paul Riddle (paulr@umbc3.umbc.edu)
 Mike Friedman (mikef@umbc3.umbc.edu)
-
-
-Debian Install:
-
-sudo apt-get install libx11-dev libxext-dev xutils-dev
-git clone https://github.com/ac000/xlander.git
-cd xlander
-xmkmf
-make
