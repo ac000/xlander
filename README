@@ -12,6 +12,12 @@ $ cd xlander
 $ xmkmf
 $ make
 
+Void:
+$ sudo xbps-install libX11-devel libXext-devel alsa-lib-devel imake git gcc
+$ git clone https://github.com/ac000/xlander.git
+$ cd xlander
+$ xmkmf
+$ sudo make install
 
 Original README
 ===============
