@@ -87,7 +87,7 @@ void LoadResources (argc, argv, lander)
    XrmDatabase defaults;
    XrmValue value;
    char *type, *xrm_string;
-   int count;
+   unsigned int count;
 
    XrmInitialize ();
    defaults =
@@ -130,8 +130,6 @@ void LoadResources (argc, argv, lander)
 		       &type, &value) != True)
       XAutoRepeatOff (d);
    if (XrmGetResource (resources, "xlander.noaudio", "Xlander.NoAudio",
-		       &type, &value) == True) {
-      if (strcmp(value.addr, "true") == 0)
-         USE_AUDIO = false;
-   }
+		       &type, &value) == True)
+      USE_AUDIO = 0;
 }

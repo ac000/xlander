@@ -7,12 +7,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <pthread.h>
 
 #include <alsa/asoundlib.h>
 
-bool USE_AUDIO = true;
+#include "audio.h"
+
+int USE_AUDIO = 1;
 
 static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
@@ -20,7 +21,7 @@ static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 static char retro_snd_buf[16 * 1024];
 static snd_pcm_t *alsa;
 
-static bool play_retro;
+static int play_retro = 0;
 
 static void *snd_thread(void *arg)
 {
@@ -46,7 +47,7 @@ void snd_stop(void)
 		return;
 
 	pthread_mutex_lock(&mtx);
-	play_retro = false;
+	play_retro = 0;
 	snd_pcm_pause(alsa, 1);
 	pthread_mutex_unlock(&mtx);
 }
@@ -57,7 +58,7 @@ void snd_start(void)
 		return;
 
 	pthread_mutex_lock(&mtx);
-	play_retro = true;
+	play_retro = 1;
 	snd_pcm_pause(alsa, 0);
 	pthread_cond_signal(&cond);
 	pthread_mutex_unlock(&mtx);
@@ -65,7 +66,7 @@ void snd_start(void)
 
 void snd_init(void)
 {
-	int i;
+	unsigned int i;
 	int err;
 	pthread_t tid;
 	const char device[] = "plug:default";

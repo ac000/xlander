@@ -1,5 +1,8 @@
 /*
  */
+#include "audio.h"
+
+int USE_AUDIO = 0;
 
 void snd_stop(void)
 {
