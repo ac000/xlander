@@ -14,6 +14,7 @@
 
 #include "xlander.h"
 #include "globals.h"
+#include "audio.h"
 
 static XrmOptionDescRec options[] = {
    { "-controls", ".controls", XrmoptionSepArg, (caddr_t) NULL },
@@ -132,6 +133,6 @@ void LoadResources (argc, argv, lander)
    if (XrmGetResource (resources, "xlander.noaudio", "Xlander.NoAudio",
 		       &type, &value) == True) {
       if (strcmp(value.addr, "true") == 0)
-         USE_AUDIO = false;
+         snd_no_audio();
    }
 }

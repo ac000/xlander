@@ -16,3 +16,7 @@ void snd_init(void)
 void snd_destroy(void)
 {
 }
+
+void snd_no_audio(void)
+{
+}

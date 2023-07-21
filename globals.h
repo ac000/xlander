@@ -15,8 +15,6 @@
 #ifndef _globals_h_
 #define _globals_h_
 
-#include <stdbool.h>
-
 extern Display *d;
 extern Window viewWin;
 extern Window instrWin;
@@ -32,7 +30,5 @@ extern XrmDatabase resources;
 extern int px, py, pz;
 extern int roll, pitch, yaw;
 extern float acceleration;
-
-extern bool USE_AUDIO;
 
 #endif

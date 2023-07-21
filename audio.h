@@ -5,5 +5,6 @@ extern void snd_stop(void);
 extern void snd_start(void);
 extern void snd_init(void);
 extern void snd_destroy(void);
+extern void snd_no_audio(void);
 
 #endif /* _AUDIO_H_ */

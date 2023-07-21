@@ -12,7 +12,7 @@
 
 #include <alsa/asoundlib.h>
 
-bool USE_AUDIO = true;
+static bool USE_AUDIO = true;
 
 static pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
@@ -106,4 +106,9 @@ void snd_destroy(void)
 		return;
 
 	snd_pcm_close(alsa);
+}
+
+void snd_no_audio(void)
+{
+	USE_AUDIO = false;
 }
