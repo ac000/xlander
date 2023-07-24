@@ -25,11 +25,9 @@
 
 float  SIN[TWOPI100],COS[TWOPI100];
 
-void Xinitialize ();
+void Xinitialize (void);
 
-void LoadPerspectiveMatrix (CTM,z)
-   float CTM[4][4];
-   float z;
+void LoadPerspectiveMatrix (float CTM[4][4], float z)
 {
    float S, Tx, Ty, fd = 200.0;
    
@@ -46,8 +44,7 @@ void LoadPerspectiveMatrix (CTM,z)
    CTM[3][1] = Ty;
 }
 
-void MultPerspective (CM,CTM,RM)
-   float CM[],CTM[4][4],RM[];
+void MultPerspective (float CM[], float CTM[4][4], float RM[])
 {
    RM[0]=CTM[0][0]*CM[0]+CTM[1][0]*CM[1]+CTM[2][0]*CM[2]+CTM[3][0]*CM[3];
    RM[1]=CTM[0][1]*CM[0]+CTM[1][1]*CM[1]+CTM[2][1]*CM[2]+CTM[3][1]*CM[3];
@@ -55,8 +52,7 @@ void MultPerspective (CM,CTM,RM)
    RM[3]=CTM[0][3]*CM[0]+CTM[1][3]*CM[1]+CTM[2][3]*CM[2]+CTM[3][3]*CM[3];
 }
 
-int Clip (CM1,CM2,RM1,RM2)
-   float CM1[],CM2[],RM1[],RM2[];
+int Clip (float CM1[], float CM2[], float RM1[], float RM2[])
 {
    
    if ((CM1[2]< 0) && (CM2[2]< 0))
@@ -96,10 +92,7 @@ int Clip (CM1,CM2,RM1,RM2)
    }
 }
 
-int WorldToDisplay (lander, line, segment)
-   LANDER *lander;
-   LINE *line;
-   XSegment *segment;
+int WorldToDisplay (LANDER *lander, LINE *line, XSegment *segment)
 {
    float  VP1[4],VP2[4];             /* viewing coordinates                  */
    float  NP1[4],NP2[4];             /* normalized coordinates               */
@@ -236,12 +229,10 @@ int WorldToDisplay (lander, line, segment)
 ** Inserts the given line segment into the XSegment array for later plotting.
 ******************************************************************************/
 
-void StoreLine (database, segment)
-   DATABASE *database;
-   XSegment *segment;
+void StoreLine (DATABASE *database, XSegment *segment)
 {
    int index = database->segcount;
-   void bcopy ();
+   void bcopy (const void *src, void *dest, size_t n);
 
    bcopy (segment, &database->segments[index], sizeof (XSegment));
    database->segcount++;
@@ -254,7 +245,7 @@ void StoreLine (database, segment)
 ** so we can plot the next view in it.
 ******************************************************************************/
 
-void SwapBuffers ()
+void SwapBuffers (void)
 {
    XCopyArea (d,buffer,viewWin,gcView,0,0,viewWidth,viewHeight,0,0);
    XSetForeground (d,gcView,BlackPixel(d, DefaultScreen (d)));
@@ -269,9 +260,7 @@ void SwapBuffers ()
 ** out the segment index so we can store more lines for the next view.
 ******************************************************************************/
 
-void DBPlot (database, lander)
-   DATABASE *database;
-   LANDER *lander;
+void DBPlot (DATABASE *database, LANDER *lander)
 {
    struct dbentry *entry;
    XSegment segment;
@@ -300,7 +289,7 @@ void DBPlot (database, lander)
 ** double buffering.
 ******************************************************************************/
 
-void setupBuffer ()
+void setupBuffer (void)
 {
    buffer = XCreatePixmap (d, viewWin, viewWidth, viewHeight,
 			   DefaultDepth (d, DefaultScreen (d)));
@@ -315,7 +304,7 @@ void setupBuffer ()
 ** This initializes a new world database and returns a pointer to it.
 ******************************************************************************/
 
-DATABASE *DBInit ()
+DATABASE *DBInit (void)
 {
    DATABASE *db;
 
@@ -336,9 +325,7 @@ DATABASE *DBInit ()
 ** Create a pre-loaded database from a list of line segments
 ******************************************************************************/
 
-DATABASE *DBInitFromData (lines, nlines)
-   LINE *lines;
-   int nlines;
+DATABASE *DBInitFromData (LINE *lines, int nlines)
 {
    int count;
    DATABASE *db;
@@ -358,8 +345,7 @@ DATABASE *DBInitFromData (lines, nlines)
 ** by the plotting routines.
 ******************************************************************************/
 
-void DBFinish (database)
-   DATABASE *database;
+void DBFinish (DATABASE *database)
 {
    if (!(database->segments =
 	 (XSegment *) calloc (database->linecount, sizeof (XSegment)))) {
@@ -374,11 +360,10 @@ void DBFinish (database)
 ** This frees up the entire database
 ******************************************************************************/
 
-void DBFree (database)
-   DATABASE *database;
+void DBFree (DATABASE *database)
 {
    struct dbentry *entry = database->lines;
-   void free ();
+   void free (void *ptr);
 
    while (entry) {
       struct dbentry *temp = entry;
@@ -400,7 +385,7 @@ void DBFree (database)
 ** allocated.
 ******************************************************************************/
 
-struct dbentry *DBAlloc ()
+struct dbentry *DBAlloc (void)
 {
    struct dbentry *entry;
 
@@ -418,12 +403,10 @@ struct dbentry *DBAlloc ()
 ** adds it to the supplied database.
 ******************************************************************************/
 
-void DBInsert (database, line)
-   DATABASE *database;
-   LINE *line;
+void DBInsert (DATABASE *database, LINE *line)
 {
    struct dbentry *entry = DBAlloc ();
-   void bcopy ();
+   void bcopy (const void *src, void *dest, size_t n);
 
    database->linecount++;
    bcopy (line, &entry->line, sizeof (LINE));

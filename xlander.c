@@ -76,7 +76,7 @@ sigset_t mask;
 ** Display the world on the screen.
 ******************************************************************************/
 
-void DisplayWorld ()
+void DisplayWorld (void)
 {
    DBPlot (world, &lander);
    DBPlot (craft, &lander);
@@ -99,15 +99,17 @@ void DisplayWorld ()
    XSync (d,False);
 }
 
-void main (argc, argv)
-   int argc;
-   char *argv[];
+void main (int argc, char *argv[])
 {
    XEvent event;
-   void InitializeLander (), SetupSinCosTable (), Xinitialize ();
-   void LoadResources (), DrawInstruments ();
-   void UpdateOrientation (), DisplayAcceleration ();
-   int Pause ();
+   void InitializeLander (DATABASE *craft, LANDER *lander);
+   void SetupSinCosTable (void);
+   void Xinitialize (void);
+   void LoadResources (int *argc, char **argv, LANDER *lander);
+   void DrawInstruments (void);
+   void UpdateOrientation (DATABASE *world, DATABASE *craft, LANDER *lander );
+   void DisplayAcceleration (void);
+   int Pause (char *string);
 
    world = LoadDataBase ();
    craft = DBInitFromData (lander_data, LANDERSIZE);

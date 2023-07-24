@@ -47,9 +47,7 @@ static XKeyboardState keyboard_state;
 ** a new landing.
 ******************************************************************************/
 
-void InitializeLander (craft, lander)
-   DATABASE *craft;
-   LANDER *lander;
+void InitializeLander (DATABASE *craft, LANDER *lander)
 {
    lander->px = craft->off_x = 0;
    lander->py = craft->off_y = 8000;
@@ -71,7 +69,7 @@ void InitializeLander (craft, lander)
 ** Restore original keyboard state and exit program.
 ******************************************************************************/
 
-void CleanupAndExit ()
+void CleanupAndExit (int signo)
 {
    XKeyboardControl control;
 
@@ -88,7 +86,7 @@ void CleanupAndExit ()
 ** needed by the program, and draws the instrument display.
 ******************************************************************************/
 
-void Xinitialize ()
+void Xinitialize (void)
 {
    Window win;
    unsigned long black, white;
@@ -97,7 +95,8 @@ void Xinitialize ()
    static char stipple_bits[] = {
       0x01, 0x02,
    };
-   void setupBuffer (), setupInstrBuffer ();
+   void setupBuffer (void);
+   void setupInstrBuffer (void);
 
    if (!(d = XOpenDisplay (""))) {
       (void) fprintf (stderr, "Error:  Can't open display\n");
@@ -186,7 +185,7 @@ void Xinitialize ()
 ** This plots the instrument panel in its background pixmap.
 ******************************************************************************/
 
-void DrawInstruments ()
+void DrawInstruments (void)
 {
    char buf[50], *type;
    char *authors = "by Paul Riddle and Mike Friedman";
@@ -258,7 +257,7 @@ void DrawInstruments ()
 ** accessed to speed up computations when plotting.
 ******************************************************************************/
 
-void SetupSinCosTable ()
+void SetupSinCosTable (void)
 {
    int i;
    float t = 0.0;
@@ -279,16 +278,16 @@ void SetupSinCosTable ()
 ** The landing pad and a few other things are also drawn in here.
 ******************************************************************************/
 
-DATABASE *LoadDataBase ()
+DATABASE *LoadDataBase (void)
 {
    int count = 0, x, y, r = 0, height, goal_x, goal_y;
    float x_offset = (float) EDGE_LENGTH * cos (60.0 * PI / 180.0);
    float y_offset = (float) EDGE_LENGTH * sin (60.0 * PI / 180.0);
    LINE line;
    DATABASE *world = DBInit ();
-   long random ();
+   long random (void);
 #ifndef sgi
-   void srandom ();
+   void srandom (unsigned int seed);
 #endif
 
    world->min_x = world->min_y = -HALF_WORLD_LENGTH;

@@ -29,13 +29,12 @@ static int score = 0;
 ** Wait for the user to hit a button, while displaying a message
 ******************************************************************************/
 
-int Pause (string)
-   char *string;
+int Pause (char *string)
 {
    XEvent event;
    int x, y;
    extern sigset_t mask;
-   void DisplayWorld ();
+   void DisplayWorld (void);
 
    sigprocmask (SIG_SETMASK, &mask, NULL);
    x = (viewWidth >> 1) - (XTextWidth (font, string, strlen (string)) >> 1);
@@ -57,11 +56,11 @@ int Pause (string)
       case KeyRelease: {
 	 KeySym keysym;
 	 char ch;
-	 void CleanupAndExit ();
+	 void CleanupAndExit (int signo);
 
 	 XLookupString (&event.xkey, &ch, 1, &keysym, (XComposeStatus *) 0);
 	 if (keysym == XK_Escape)
-	    CleanupAndExit ();
+	    CleanupAndExit (-1);
 	 break;
       }
       default:
@@ -76,17 +75,18 @@ int Pause (string)
 ** End the game.
 ******************************************************************************/
 
-void CrunchLander ()
+void CrunchLander (void)
 {
    char buf[32];
-   void CleanupAndExit (), DisplayWorld ();
+   void CleanupAndExit (int signp);
+   void DisplayWorld (void);
    
    sprintf (buf, "CRASH!!     Final Score: %d", score);
    XDrawImageString (d, instrBuffer, gcInstr, 381, 84, buf, strlen (buf));
    DisplayWorld ();
    Pause ("Press button to exit");
    printf ("Final Score: %d\n", score);
-   CleanupAndExit ();
+   CleanupAndExit (-1);
 }
 
 /******************************************************************************
@@ -95,15 +95,14 @@ void CrunchLander ()
 ** Award points based on how well the player landed
 ******************************************************************************/
 
-void RateLanding (db, lander)
-   DATABASE *db;
-   LANDER *lander;
+void RateLanding (DATABASE *db, LANDER *lander)
 {
    char buf[32];
    extern LINE landingpad[];
    int x_distance, z_distance;  /* Distance from center of pad */
-   int abs ();
-   void InitializeLander (), DisplayAcceleration ();
+   int abs (int i);
+   void InitializeLander (DATABASE *craft, LANDER *lander);
+   void DisplayAcceleration (void);
 
    x_distance =
       abs ((int) (db->off_x - (landingpad[0].x1 + (PAD_WIDTH >> 1))));
@@ -134,7 +133,7 @@ void RateLanding (db, lander)
 ** Display acceleration due to gravity in window
 ******************************************************************************/
 
-void DisplayAcceleration ()
+void DisplayAcceleration (void)
 {
    char buf[32];
 
@@ -157,17 +156,15 @@ void DisplayAcceleration ()
 ** Pitch and roll work, but are unused in this version of the simulation.
 ******************************************************************************/
 
-void UpdateOrientation (world, craft, lander)
-   DATABASE *world, *craft;
-   LANDER *lander;
+void UpdateOrientation (DATABASE *world, DATABASE *craft, LANDER *lander)
 {
    float lat_accel_x, lat_accel_y;
    float lat_veloc_x, lat_veloc_y;
    XEvent event;
    KeySym keysym;
    char ch;
-   void UpdateInstruments ();
-   void CleanupAndExit ();
+   void UpdateInstruments (float heading, float roc, float fuel, int x, int y);
+   void CleanupAndExit (int signo);
 
    if (XCheckMaskEvent (d,
 			ButtonPressMask |
@@ -208,7 +205,7 @@ void UpdateOrientation (world, craft, lander)
 	 else if (ch == lander->controls[4])
 	    lander->retro_thruster = 0;
 	 else if (keysym == XK_Escape)
-	    CleanupAndExit ();
+	    CleanupAndExit (-1);
 
 	 snd_stop();
 	 break;

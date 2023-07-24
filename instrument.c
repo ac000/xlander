@@ -27,7 +27,7 @@
 ** panel.
 ******************************************************************************/
 
-void setupInstrBuffer ()
+void setupInstrBuffer (void)
 {
    instrBuffer = XCreatePixmap (d, instrWin, viewWidth, panelHeight,
 				DefaultDepth (d, DefaultScreen (d)));
@@ -42,9 +42,7 @@ void setupInstrBuffer ()
 ** the indicators on the control panel.
 ******************************************************************************/
 
-void UpdateInstruments (heading, roc, fuel, x, y)
-   float heading, roc, fuel;
-   int x, y;
+void UpdateInstruments (float heading, float roc, float fuel, int x, int y)
 {
    static int heading_x = 50, heading_y = 15;
    static int fuel_level = 80, old_x = 290, old_y = 10;

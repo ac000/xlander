@@ -107,14 +107,22 @@ typedef struct {
  * Various routines
  */
 
-DATABASE *DBInit (), *DBInitFromData (), *LoadDataBase ();
-void DBInsert (), DBFinish (), DBPlot (), SwapBuffers (), exit ();
+DATABASE *DBInit (void);
+DATABASE *DBInitFromData (LINE *lines, int nlines);
+DATABASE *LoadDataBase (void);
+void DBInsert (DATABASE *database, LINE *line);
+void DBFinish (DATABASE *database);
+void DBPlot (DATABASE *database, LANDER *lander);
+void SwapBuffers (void);
+void exit (int status);
 #ifndef _AIX
 /*char *malloc ();*/
 #endif
-double atof ();
+double atof (const char *nptr);
 #ifdef sun
-int printf (), fprintf (), time ();
+int printf (const char *format, ...);
+int fprintf (FILE *stream, const char *restrict format, ...),
+time_t time (time_t *tloc);
 #endif
 
 /*

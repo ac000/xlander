@@ -51,7 +51,7 @@ static struct surface {
 ** Print usage of command line arguments
 ******************************************************************************/
 
-void Usage ()
+void Usage (void)
 {
    static char *usage[] = {
       "usage:  xlander [options]",
@@ -80,10 +80,7 @@ void Usage ()
 ** variables based on values in the resource database.
 ******************************************************************************/
 
-void LoadResources (argc, argv, lander)
-   int *argc;
-   char **argv;
-   LANDER *lander;
+void LoadResources (int *argc, char **argv, LANDER *lander)
 {
    XrmDatabase defaults;
    XrmValue value;
