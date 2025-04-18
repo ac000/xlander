@@ -20,7 +20,9 @@
 #ifndef _xlander_h_
 #define _xlander_h_
 
+#ifndef _DEFAULT_SOURCE
 #define _DEFAULT_SOURCE
+#endif
 
 #include <stdio.h>
 #include <math.h>
